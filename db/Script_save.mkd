@@ -1,0 +1,8 @@
+# SQL and IBExpert
+
+## Isso vai te mostrar os nomes das constraints ativos:
+
+``SELECT rc.rdb$constraint_name, rc.rdb$relation_name, i.rdb$field_name
+FROM rdb$relation_constraints rc
+JOIN rdb$index_segments i ON rc.rdb$index_name = i.rdb$index_name
+WHERE rc.rdb$constraint_type = 'FOREIGN KEY';``
