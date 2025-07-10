@@ -77,14 +77,11 @@ if opcao == "nota de entrada":
             st.sidebar.write("Produtos cadastrados:")
             st.sidebar.dataframe(df, use_container_width=True)
 
-            
-
-
-
-
-
             # Adiciona o produto à lista
             st.success("Produto adicionado com sucesso!")
         else:
             st.error("Por favor, preencha todos os campos.")
+
+        
+
             

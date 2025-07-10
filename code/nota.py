@@ -23,17 +23,3 @@ class calculoAtributos:
 
 
 
-# # Classe para adicionar produtos à lista - não utilizada
-
-    #class adicionarProd:
-    #   def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
-    #      global produtos
-    #     produtos = []
-        #    produtos.append(
-        #       {
-        #          "descricao": descProduto,
-        #         "valor_unitario": valorUnit,
-            ##       "valor_total": valorTotal,
-            #  }
-            #)
-        
