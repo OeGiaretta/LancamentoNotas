@@ -1,5 +1,4 @@
-import app.py as apy
-
+# Classe para calcular os atributos da nota fiscal
 class calculoAtributos:
     def calculoAtributos(self):
         totalGeralIPI = round(apy.valorIPI, 2)
@@ -15,3 +14,21 @@ class calculoAtributos:
             st.success("O valor total da nota está correto.")
         else:
             st.error("O valor total da nota não confere com o calculado pelo sistema.")
+
+
+
+
+# # Classe para adicionar produtos à lista - não utilizada
+
+    #class adicionarProd:
+    #   def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
+    #      global produtos
+    #     produtos = []
+        #    produtos.append(
+        #       {
+        #          "descricao": descProduto,
+        #         "valor_unitario": valorUnit,
+            ##       "valor_total": valorTotal,
+            #  }
+            #)
+        
