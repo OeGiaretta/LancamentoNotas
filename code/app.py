@@ -21,17 +21,6 @@ st.title("Cálculo de Notas Fiscais")
 
 # Função para adicionar produtos à lista
 def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
-    novo_produto = {
-        "descricao": descProduto,
-        "valor_unitario": valorUnit,
-        "valor_ipi": valorIPI,
-        "valor_total": valorTotal,
-    }
-    st.session_state.produtos.append(novo_produto)
-    df = pd.DataFrame(produtos)
-    st.sidebar.write("Produtos cadastrados:")
-    st.sidebar.dataframe(df, use_container_width=True)
-    st.session_state.produtos = []
 
 
 # Verifica se a opção selecionada é "nota de entrada"
@@ -63,18 +52,38 @@ if opcao == "nota de entrada":
             "Valor total contábil:", min_value=0.0, step=0.01, key="valor_total"
         )
 
+        
+        
         # Verifica se todos os campos foram preenchidos
-        if (
-            st.button("Adicionar produto", key="B1") and descProduto
-            and valorUnit
-            and valorIPI
-            and valorTotal
+        if st.button(
+                "Adicionar produto"
+            ) and (
+            descProduto
+            and valorUnit > 0
+            and qntProd > 0
+            and valorIPI > 0
+            and valorTotal > 0
         ):
-            st.button("Adicionar produto", key="B1,")
+            
+            novo_produto = {
+                "descricao": descProduto,
+                "valor_unitario": valorUnit,
+                "valor_ipi": valorIPI,
+                "valor_total": valorTotal,
+            }
+            st.session_state.produtos.append(novo_produto)
+            df = pd.DataFrame(produtos)
+            st.sidebar.write("Produtos cadastrados:")
+            st.sidebar.dataframe(df, use_container_width=True)
+            st.session_state.produtos = []
+            
+
+
+
+
+
+            # Adiciona o produto à lista
             st.success("Produto adicionado com sucesso!")
         else:
             st.error("Por favor, preencha todos os campos.")
-
-        # Botão para calcular os valores
-        st.button("Calcular valores", key="B2")
-        npy.calculoAtributos()
+            

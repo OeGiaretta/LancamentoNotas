@@ -1,4 +1,9 @@
 # Classe para calcular os atributos da nota fiscal
+import streamlit as st
+import pandas as pd
+import numpy as np
+import nota as apy
+
 class calculoAtributos:
     def calculoAtributos(self):
         totalGeralIPI = round(apy.valorIPI, 2)
