@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import nota as npy
 
 # Seleção de nota e criação da lista de produtos
-produtos = []
 titulo = st.title("Entrada de dados")
 opcao = st.sidebar.selectbox(
     "Selecione uma métrica",
@@ -19,8 +18,8 @@ opcao = st.sidebar.selectbox(
 st.title("Cálculo de Notas Fiscais")
 
 
-# Função para adicionar produtos à lista
-def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
+# Função para adicionar produtos à lista - não utilizada
+#def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
 
 
 # Verifica se a opção selecionada é "nota de entrada"
@@ -71,11 +70,13 @@ if opcao == "nota de entrada":
                 "valor_ipi": valorIPI,
                 "valor_total": valorTotal,
             }
+            if "produtos" not in st.session_state:
+                st.session_state.produtos = []
             st.session_state.produtos.append(novo_produto)
-            df = pd.DataFrame(produtos)
+            df = pd.DataFrame(st.session_state.produtos)
             st.sidebar.write("Produtos cadastrados:")
             st.sidebar.dataframe(df, use_container_width=True)
-            st.session_state.produtos = []
+
             
 
 
