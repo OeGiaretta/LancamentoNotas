@@ -82,6 +82,26 @@ if opcao == "nota de entrada":
         else:
             st.error("Por favor, preencha todos os campos.")
 
-        
+    
+    
+    if st.button(
+        "Calcular Nota de Entrada"
+              ):
+        npy.calculoAtributos()
+        st.sidebar.write("Cálculo realizado com sucesso!")
+        st.sidebar.write("Total IPI: ", totalGeralIPI)
+        st.sidebar.write("Total Unitário: ", npy.totalGeralUnit)
+        st.sidebar.write("Cálculo do total informado pelo usuário: ", npy.totalUser)
+        st.sidebar.write("Total da Nota calculado pelo sistema: ", npy.totalGeralUnit + npy.totalGeralIPI)
+    
+    
 
+        
+        
+        
+        
+        
+      
+
+    
             
