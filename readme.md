@@ -1,4 +1,4 @@
-```markdown
+
 # Lançamento de Notas Fiscais
 
 Este projeto é uma aplicação web simples desenvolvida com [Streamlit](https://streamlit.io/) para facilitar o **lançamento e validação de notas fiscais**, tanto de entrada quanto de saída.
