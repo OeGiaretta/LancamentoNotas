@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import nota as npy
+
 
 # Seleção de nota e criação da lista de produtos
 titulo = st.title("Entrada de dados")
@@ -87,16 +87,19 @@ if opcao == "nota de entrada":
     if st.button(
         "Calcular Nota de Entrada"
               ):
-        npy.calculoAtributos()
-        st.sidebar.write("Cálculo realizado com sucesso!")
-        st.sidebar.write("Total IPI: ", totalGeralIPI)
-        st.sidebar.write("Total Unitário: ", npy.totalGeralUnit)
-        st.sidebar.write("Cálculo do total informado pelo usuário: ", npy.totalUser)
-        st.sidebar.write("Total da Nota calculado pelo sistema: ", npy.totalGeralUnit + npy.totalGeralIPI)
-    
-    
-
-        
+        totalGeralIPI = round(valorIPI, 2)
+        totalGeralUnit = round(valorUnit, 2)
+        totalUser = round(valorTotal, 2)
+        totalNota = round(totalGeralUnit + totalGeralIPI, 2)
+        st.write("Resultado do cálculo dos produtos:")
+        st.write(f"Total IPI: {totalGeralIPI}")
+        st.write(f"Total Unitário: {totalGeralUnit}")
+        st.write(f"Cálculo do total informado pelo usuário: {totalUser}")
+        st.write(f"Total da Nota calculado pelo sistema: {totalNota}")
+        if totalNota == totalUser:
+            st.success("O valor total da nota está correto.")
+        else:
+            st.error("O valor total da nota não confere com o calculado pelo sistema.")
         
         
         
