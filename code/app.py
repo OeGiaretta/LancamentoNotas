@@ -42,7 +42,7 @@ if opcao == "nota de entrada":
             "Valor unitário do produto:", min_value=0.0, step=0.01, key="valor_unitario"
         )
         qntProd = st.number_input(
-            "Valor unitário do produto:", min_value=0.0, step=0.01, key="qnt_produto"
+            "Quantidade de produto:", min_value=0.0, step=0.01, key="qnt_produto"
         )
         valorIPI = st.number_input(
             "Valor do IPI:", min_value=0.0, step=0.01, key="valor_ipi"
@@ -50,6 +50,7 @@ if opcao == "nota de entrada":
         valorTotal = st.number_input(
             "Valor total contábil:", min_value=0.0, step=0.01, key="valor_total"
         )
+        totalNota_Prod = (valorUnit + valorUnit) * qntProd
 
         
         
@@ -67,25 +68,54 @@ if opcao == "nota de entrada":
             novo_produto = {
                 "descricao": descProduto,
                 "valor_unitario": valorUnit,
+                "quantidade": qntProd,
                 "valor_ipi": valorIPI,
                 "valor_total": valorTotal,
+                "total_produto": totalNota_Prod
             }
-            if "produtos" not in st.session_state:
-                st.session_state.produtos = []
-            st.session_state.produtos.append(novo_produto)
-            df = pd.DataFrame(st.session_state.produtos)
-            st.sidebar.write("Produtos cadastrados:")
-            st.sidebar.dataframe(df, use_container_width=True)
 
             # Adiciona o produto à lista
+            if "produtos" not in st.session_state:
+                st.session_state.produtos = []
+            st.session_state.produtos.append(novo_produto)           
             st.success("Produto adicionado com sucesso!")
         else:
             st.error("Por favor, preencha todos os campos.")
 
-    #Excluir ou limpar produtos da lista
+    # Deixar tabela de produtos visível
+    if "produtos" in st.session_state and st.session_state.produtos:
+        st.sidebar.write("Lista de produtos:")
+        df = pd.DataFrame(st.session_state.produtos)
+        st.sidebar.dataframe(df, use_container_width=True)
+    else:
+        st.sidebar.write("Nenhum produto cadastrado.")
 
+    # Limpar produtos da lista
+    if st.sidebar.button("limpar produtos"):
+        if "produtos" in st.session_state:
+            del st.session_state.produtos
+            st.sidebar.write("Lista de produtos limpa.")
+        else:
+            st.sidebar.write("Nenhum produto para limpar.")
 
-    #Calcula os dados da nota de entrada (Uso)
+    # Excluir produtos da lista
+    if st.sidebar.button("Excluir produto"):
+        if "produtos" in st.session_state and st.session_state.produtos:
+            st.sidebar.text_input("Digite a descrição do produto a ser excluído:", 
+                                  key="produto_excluir",
+                                  placeholder="Descrição do produto"
+                                  )
+            produto_excluir = st.session_state.produto_excluir
+            if produto_excluir:
+                st.session_state.produtos = [
+                    produto for produto in st.session_state.produtos
+                    if produto["descricao"] != produto_excluir
+                ]
+                st.sidebar.write(f"Produto '{produto_excluir}' excluído.")
+        else:
+            st.sidebar.write("Nenhum produto para excluir.")
+
+    # Calcula os dados da nota de entrada (Uso)
     if st.button(
         "Calcular Nota de Entrada"
             ):
