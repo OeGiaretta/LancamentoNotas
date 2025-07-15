@@ -82,15 +82,25 @@ if opcao == "nota de entrada":
         else:
             st.error("Por favor, preencha todos os campos.")
 
-    
-    
+    #Excluir ou limpar produtos da lista
+
+
+    #Calcula os dados da nota de entrada (Uso)
     if st.button(
         "Calcular Nota de Entrada"
-              ):
-        totalGeralIPI = round(valorIPI, 2)
-        totalGeralUnit = round(valorUnit, 2)
-        totalUser = round(valorTotal, 2)
-        totalNota = round(totalGeralUnit + totalGeralIPI, 2)
+            ):
+        totalGeralIPI = round(
+            sum(novo_produto["valor_ipi"] for novo_produto in st.session_state.produtos), 2
+            )
+        totalGeralUnit = round(
+            sum(novo_produto["valor_unitario"] for novo_produto in st.session_state.produtos), 2
+            )
+        totalUser = round(
+            sum(novo_produto["valor_total"] for novo_produto in st.session_state.produtos), 2
+            )
+        totalNota = round(
+            totalGeralUnit + totalGeralIPI, 2
+            )
         st.write("Resultado do cálculo dos produtos:")
         st.write(f"Total IPI: {totalGeralIPI}")
         st.write(f"Total Unitário: {totalGeralUnit}")
