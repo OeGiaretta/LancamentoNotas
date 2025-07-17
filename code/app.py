@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import telaInicial as ti
+import nota as nt
 
 
 # Seleção de nota e criação da lista de produtos
@@ -15,16 +17,12 @@ opcao = st.sidebar.selectbox(
     ],
 )
 
-# Configuração do título da aplicação
-st.title("Cálculo de Notas Fiscais")
-
-
-# Função para adicionar produtos à lista - não utilizada
-# def adicionarProd(descProduto, valorUnit, valorIPI, valorTotal):
-
-
 # Verifica se a opção selecionada é "nota de entrada"
-if opcao == "nota de entrada":
+
+if opcao == "Tela Inicial":
+    ti.tela_inicial()
+
+elif opcao == "nota de entrada":
     opcao2 = st.sidebar.selectbox(
         "Selecione o tipo de nota",
         [
@@ -121,48 +119,26 @@ if opcao == "nota de entrada":
 
     # Calcula os dados da nota de entrada (Uso)
 
-    totalGeralIPI = 0
-    totalGeralUnit = 0
-    totalUser = 0
-    totalNota = 0
-
     with col3:
-        if st.button("Calcular Nota de Entrada"):
-            totalGeralIPI = round(
-                sum(
-                    novo_produto["valor_ipi"]
-                    for novo_produto in st.session_state.produtos
-                ),2,
-            )
-            totalGeralUnit = round(
-                sum(
-                    novo_produto["valor_unitario"]
-                    for novo_produto in st.session_state.produtos
-                ),2,
-            )
-            totalUser = round(
-                sum(
-                    novo_produto["valor_total"]
-                    for novo_produto in st.session_state.produtos
-                ),2,
-            )
-            totalNota = round(totalGeralUnit + totalGeralIPI, 2)
 
+        if st.button("Calcular Nota de Entrada"):
+            nt.calculo()
+    
     st.subheader("Resultado do cálculo dos produtos:")
 
     st.session_state.resultados = []
     resultados = {
-        "total IPI": totalGeralIPI,
-        "Total Unitário": totalGeralUnit,
-        "Total informado pelo cliente": totalUser,
-        "Total calculado pelo sistema": totalNota,
+        "total IPI": nt.totalGeralIPI,
+        "Total Unitário": nt.totalGeralUnit,
+        "Total informado pelo cliente": nt.totalUser,
+        "Total calculado pelo sistema": nt.totalNota,
     }
     st.session_state.resultados.append(resultados)
     df_resultados = pd.DataFrame(st.session_state.resultados)
     st.dataframe(
         df_resultados,
     )
-    if totalNota == totalUser:
+    if nt.totalNota == nt.totalUser:
         st.success("O valor total da nota está correto.")
     else:
         st.error("O valor total da nota não confere com o calculado pelo sistema.")
