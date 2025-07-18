@@ -3,6 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+totalGeralIPI = 0
+totalGeralUnit = 0
+totalNota = 0
+totalUser = 0
+
+
 # Calcula os dados da nota de entrada (Uso)
 def calculo():        
             totalGeralIPI = round(
@@ -24,4 +31,4 @@ def calculo():
                 ),2,
             )
             totalNota = round(totalGeralUnit + totalGeralIPI, 2)
-            
+            return totalGeralIPI, totalGeralUnit, totalUser, totalNota
