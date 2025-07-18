@@ -49,7 +49,7 @@ elif opcao == "nota de entrada":
         valorTotal = st.sidebar.number_input(
             "Valor total contábil:", min_value=0.0, step=0.01, key="valor_total"
         )
-        totalNota_Prod = (valorUnit + valorUnit) * qntProd
+        totalNota = (valorUnit * qntProd) + valorIPI 
 
         # Verifica se todos os campos foram preenchidos
         if st.sidebar.button("Adicionar produto") and (
@@ -66,7 +66,7 @@ elif opcao == "nota de entrada":
                 "quantidade": qntProd,
                 "valor_ipi": valorIPI,
                 "valor_total": valorTotal,
-                "total_produto": totalNota_Prod,
+                "total_produto": totalNota,
             }
 
             # Adiciona o produto à lista
@@ -123,6 +123,13 @@ elif opcao == "nota de entrada":
 
         if st.button("Calcular Nota de Entrada"):
             nt.calculo()
+            totalUser = round(
+                sum(
+                    novo_produto["valor_total"]
+                    for novo_produto in st.session_state.produtos
+                ),2,
+            )
+            nt.totalGeralIPI, nt.totalGeralUnit, nt.totalUser, nt.totalNota = nt.calculo()
     
     st.subheader("Resultado do cálculo dos produtos:")
 
