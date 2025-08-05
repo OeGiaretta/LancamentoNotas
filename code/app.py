@@ -3,78 +3,38 @@ import pandas as pd
 import numpy as np
 import telaInicial as ti
 import nota as nt
+import revenda as rv
+import uso as so
 
 
 # Seleção de nota e criação da lista de produtos
-titulo = st.title("Entrada de dados")
 opcao = st.sidebar.selectbox(
     "Selecione uma métrica",
     [
         "Tela Inicial",
-        "nota de entrada",
-        "nota de saída",
+        "Nota de entrada",
+        #"Nota de saída",
     ],
 )
 
 # Verifica se a opção selecionada é "nota de entrada"
-
 if opcao == "Tela Inicial":
     ti.tela_inicial()
 
-elif opcao == "nota de entrada":
+elif opcao == "Nota de entrada":
     opcao2 = st.sidebar.selectbox(
         "Selecione o tipo de nota",
         [
-            "uso",
-            "revenda",
+            "Uso",
+            "Revenda",
         ],
     )
 
+    titulo = st.title("Entrada de dados: " + opcao2)
+
     # Verifica se a opção selecionada é "uso" ou "revenda"
-    if opcao2 == "uso":
-
-        # Configuração das notas de uso
-        st.sidebar.subheader("Nota para uso")
-        descProduto = st.sidebar.text_input("Descrição do produto:")
-        valorUnit = st.sidebar.number_input(
-            "Valor unitário do produto:", min_value=0.0, step=0.01, key="valor_unitario"
-        )
-        qntProd = st.sidebar.number_input(
-            "Quantidade de produto:", min_value=0.0, step=0.01, key="qnt_produto"
-        )
-        valorIPI = st.sidebar.number_input(
-            "Valor do IPI:", min_value=0.0, step=0.01, key="valor_ipi"
-        )
-        valorTotal = st.sidebar.number_input(
-            "Valor total contábil:", min_value=0.0, step=0.01, key="valor_total"
-        )
-        totalNota = (valorUnit * qntProd) + valorIPI 
-
-        # Verifica se todos os campos foram preenchidos
-        if st.sidebar.button("Adicionar produto") and (
-            descProduto
-            and valorUnit > 0
-            and qntProd > 0
-            and valorIPI > 0
-            and valorTotal > 0
-        ):
-
-            novo_produto = {
-                "descricao": descProduto,
-                "valor_unitario": valorUnit,
-                "quantidade": qntProd,
-                "valor_ipi": valorIPI,
-                "valor_total": valorTotal,
-                "total_produto": totalNota,
-            }
-
-            # Adiciona o produto à lista
-            if "produtos" not in st.session_state:
-                st.session_state.produtos = []
-            st.session_state.produtos.append(novo_produto)
-            st.sidebar.success("Produto adicionado com sucesso!")
-        else:
-            st.sidebar.error("Por favor, preencha todos os campos.")
+    if opcao2 == "Uso":
+        so.uso()
 
     # Deixar tabela de produtos visível
     if "produtos" in st.session_state and st.session_state.produtos:
@@ -148,3 +108,7 @@ elif opcao == "nota de entrada":
         st.success("O valor total da nota está correto.")
     else:
         st.error("O valor total da nota não confere com o calculado pelo sistema.")
+
+    # Verifica se a opção selecionada é "revenda"
+    if opcao2 == "Revenda":
+        rv.revenda()
