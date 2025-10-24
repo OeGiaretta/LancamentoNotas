@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from uso import uso as so
+
+uso = so()
+
 class NotaEntrada:
 
     def __init__(self):
@@ -10,10 +14,10 @@ class NotaEntrada:
         self.totalGeralUnit = 0
         self.totalNota = 0
         self.totalUser = 0
+        self.qntProd = 0
         
     # Calcula os dados da nota de entrada (Uso)
     def calculo(self):        
-        
         self.totalGeralIPI = round(
             sum(
                 novo_produto["valor_ipi"]
@@ -22,11 +26,12 @@ class NotaEntrada:
         )
         self.totalGeralUnit = round(
             sum(
-                novo_produto["valor_unitario"]
+                novo_produto["valor_unitario"] * novo_produto["quantidade"]
                 for novo_produto in st.session_state.produtos
             ),2,
         )
         self.totalUser = round(
+                    
                     sum(
                         novo_produto["valor_total"]
                         for novo_produto in st.session_state.produtos
