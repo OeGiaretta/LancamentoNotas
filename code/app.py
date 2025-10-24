@@ -2,10 +2,21 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import telaInicial as ti
-import nota as nt
 import uso as so
 
 from utils import Utils as ut
+from nota import NotaEntrada as ne
+
+nota = ne()
+utils = ut()
+
+if __name__ == "__main__":
+    st.set_page_config(
+        page_title="Lançamento de Notas Fiscais",
+        page_icon=":memo:",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
 
 # Seleção de nota e criação da lista de produtos
 opcao = st.sidebar.selectbox(
@@ -40,25 +51,23 @@ elif opcao == "Nota de entrada":
     ut.tabela_visivel()
 
     # Alinha os botões na mesma linha
-    ut.alinhar_botoes()
-
+    col1, col2, col3 = st.columns(3)
     # Limpar produtos da lista
-    with ut.col1:
+    with col1:
         ut.limpar_produtos()
         
     # Excluir produtos da lista
-    with ut.col2:
+    with col2:
         ut.excluir_produto()
         
     # Calcula os dados da nota de entrada (Uso)
-    with ut.col3:
-        if st.button("Calcular Nota de Entrada"):
-            nt.calculo()
-            nt.calculo_cliente()
-
-    # Mostra o resultado dos cálculos
-    ut.resultado()
-
+    with col3:
+        button_calcular = st.button("Calcular Nota de Entrada")        
+    if button_calcular:
+                nota.calculo()
+                nota.calculo_cliente()
+                nota.resultado()
+    
     # Verifica se a opção selecionada é "revenda"
     if utilizado_Para == "Revenda":
-        nt.revenda()
+        nota.revenda()

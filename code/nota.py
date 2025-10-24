@@ -3,12 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-totalGeralIPI = 0
-totalGeralUnit = 0
-totalNota = 0
-totalUser = 0
-
 class NotaEntrada:
 
     def __init__(self):
@@ -19,6 +13,7 @@ class NotaEntrada:
         
     # Calcula os dados da nota de entrada (Uso)
     def calculo(self):        
+        
         self.totalGeralIPI = round(
             sum(
                 novo_produto["valor_ipi"]
@@ -37,9 +32,11 @@ class NotaEntrada:
                         for novo_produto in st.session_state.produtos
                     ),2,
                 )
+        
         self.totalNota = round(self.totalGeralUnit + self.totalGeralIPI, 2)
         return self.totalGeralIPI, self.totalGeralUnit, self.totalUser, self.totalNota
         
+    #Calcula o total informado pelo cliente
     def calculo_cliente(self):
         totalUser = round(
             sum(
@@ -48,6 +45,28 @@ class NotaEntrada:
             ),2,
         )
         self.totalGeralIPI, self.totalGeralUnit, self.totalUser, self.totalNota = self.calculo()
+
+    # Mostra tabela de resultados
+    def resultado(self):
+        st.subheader("Resultado do cálculo dos produtos:")
+
+        st.session_state.resultados = []
+        resultados = {
+            "total IPI": self.totalGeralIPI,
+            "Total Unitário": self.totalGeralUnit,
+            "Total informado pelo cliente": self.totalUser,
+            "Total calculado pelo sistema": self.totalNota,
+        }
+        st.session_state.resultados.append(resultados)
+        df_resultados = pd.DataFrame(st.session_state.resultados)
+        st.dataframe(
+            df_resultados,
+        )
+        if self.totalNota == self.totalUser:
+            st.success("O valor total da nota está correto.")
+        else:
+            st.error("O valor total da nota não confere com o calculado pelo sistema.")
+    
 
     def revenda(self):  
         # Configuração das notas de revenda

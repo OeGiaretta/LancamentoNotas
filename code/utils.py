@@ -4,10 +4,9 @@ import numpy as np
 
 from nota import NotaEntrada as ne
 
+nota = ne()
+
 class Utils:
-    def alinhar_botoes():
-        # Alinhar botões
-        col1, col2, col3 = st.columns(3)
 
     # Limpar produtos da lista
     def limpar_produtos():
@@ -46,25 +45,3 @@ class Utils:
             st.dataframe(df, use_container_width=True)
         else:
             st.write("Nenhum produto cadastrado.")
-
-    # Mostra tabela de resultados
-    def resultado():
-        st.subheader("Resultado do cálculo dos produtos:")
-
-        st.session_state.resultados = []
-        resultados = {
-            "total IPI": ne.totalGeralIPI,
-            "Total Unitário": ne.totalGeralUnit,
-            "Total informado pelo cliente": ne.totalUser,
-            "Total calculado pelo sistema": ne.totalNota,
-        }
-        st.session_state.resultados.append(resultados)
-        df_resultados = pd.DataFrame(st.session_state.resultados)
-        st.dataframe(
-            df_resultados,
-        )
-        if ne.totalNota == ne.totalUser:
-            st.success("O valor total da nota está correto.")
-        else:
-            st.error("O valor total da nota não confere com o calculado pelo sistema.")
-            
